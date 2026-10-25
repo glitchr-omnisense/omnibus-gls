@@ -8,7 +8,7 @@ use Omnibus\Model\Parcel;
 use Omnibus\Model\Shipment;
 use Omnibus\Model\TrackingStatus;
 use Omnibus\Request\Pickup;
-use Omnibus\Tests\Fixtures;
+use Omnibus\Testing\Fixtures;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;

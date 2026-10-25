@@ -59,9 +59,14 @@ final class Api
     public function track(string $number, string $locale): array
     {
         try {
-            $data = $this->http->request('GET', str_replace('/EU/en/', '/EU/'.(str_starts_with($locale, 'fr') ? 'fr' : (str_starts_with($locale, 'de') ? 'de' : 'en')).'/', self::TRACKING), ['query' => ['match' => $number], 'timeout' => $this->timeout])->toArray(false);
+            $response = $this->http->request('GET', str_replace('/EU/en/', '/EU/'.(str_starts_with($locale, 'fr') ? 'fr' : (str_starts_with($locale, 'de') ? 'de' : 'en')).'/', self::TRACKING), ['query' => ['match' => $number], 'timeout' => $this->timeout]);
+            $status = $response->getStatusCode();
+            $data = $response->toArray(false);
         } catch (HttpExceptionInterface $e) {
             throw new CarrierException('gls', 'GLS tracking failed: '.$e->getMessage(), null, $e);
+        }
+        if ($status >= 400) {
+            throw new CarrierException('gls', (string) ($data['message'] ?? sprintf('GLS tracking answered HTTP %d.', $status)));
         }
 
         return $data;
