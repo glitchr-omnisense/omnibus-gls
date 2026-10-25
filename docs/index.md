@@ -112,6 +112,9 @@ description, in this order:
 Because the rows are tried in order, a text such as "not delivered" contains `delivered` and is
 read as `DELIVERED` before the `EXCEPTION` row is reached.
 
+> [!WARNING]
+> Known defect: "not delivered" reads `DELIVERED`, where it is an `EXCEPTION`.
+
 **Cancel.** `POST /shipments/cancel/{trackId}`: `true` when GLS's `result` is `CANCELLED` or
 `CANCELLATION_PENDING`, `false` for any other result.
 
