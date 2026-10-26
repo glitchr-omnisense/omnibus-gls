@@ -1,6 +1,6 @@
 # omnibus/gls
 
-GLS for [omniscient/omnibus](https://github.com/glitchr-studio/omnibus): shipments with their
+GLS for [omnisense/omnibus](https://github.com/glitchr-omnisense/omnibus): shipments with their
 labels and cancellations through the ShipIT web API, tracking through GLS's public parcel
 tracking. Prices come from configuration (`rates`): ShipIT quotes none.
 
@@ -8,7 +8,7 @@ tracking. Prices come from configuration (`rates`): ShipIT quotes none.
 $gateway = (new GlsGatewayFactory($http))->create($options);   // $http: the application's HTTP client - none given, the factory makes its own; the options below
 ```
 
-No framework needed: the package requires `omniscient/omnibus` and `symfony/http-client`. In a
+No framework needed: the package requires `omnisense/omnibus` and `symfony/http-client`. In a
 Symfony application, the same through the bundle's configuration:
 
 ```yaml

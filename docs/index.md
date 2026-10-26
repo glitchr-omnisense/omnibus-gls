@@ -1,6 +1,6 @@
 # omnibus/gls
 
-GLS for [omniscient/omnibus](https://github.com/glitchr-studio/omnibus): shipments with their PDF
+GLS for [omnisense/omnibus](https://github.com/glitchr-omnisense/omnibus): shipments with their PDF
 labels and cancellations through GLS's ShipIT web API (HTTP basic authentication), tracking
 through GLS's public parcel tracking (no credentials). ShipIT quotes no prices: they come from the
 `rates` option. The gateway calls:
@@ -21,7 +21,7 @@ public tracking has one address, whatever `sandbox` says.
 composer require omnibus/gls
 ```
 
-Requires PHP 8.2, `omniscient/omnibus` (2.x) and `symfony/http-client` (6.4, 7 or 8); given no
+Requires PHP 8.2, `omnisense/omnibus` (2.x) and `symfony/http-client` (6.4, 7 or 8); given no
 HTTP client, the factory makes one with `HttpClient::create()`. In a Symfony application with
 `Omnibus\Bridge\Symfony\OmnibusBundle`, the factory is registered as soon as the package is
 installed.
@@ -42,7 +42,7 @@ Tracking needs none of them.
 | `password` | string | - | yes | its password |
 | `contact_id` | string | - | yes | the shipper's contact id (`Shipper.ContactID`) |
 | `sandbox` | bool | `false` | no | `true`: the ShipIT test system |
-| `rates` | list | - | no | the only way this gateway rates ([the rates option](https://github.com/glitchr-studio/omnibus/blob/2.x/docs/configuration.md#the-rates-option)) |
+| `rates` | list | - | no | the only way this gateway rates ([the rates option](https://github.com/glitchr-omnisense/omnibus/blob/2.x/docs/configuration.md#the-rates-option)) |
 
 Shipment options (`Shipment::$options`):
 
