@@ -17,6 +17,8 @@ final class GlsGatewayTest extends TestCase
 {
     private array $calls = [];
 
+    private ?array $tracking = null;
+
     private function gateway(): \Omnibus\GatewayInterface
     {
         $http = new MockHttpClient(function (string $method, string $url, array $options): MockResponse {
@@ -26,7 +28,7 @@ final class GlsGatewayTest extends TestCase
             return match (true) {
                 str_contains($url, 'shipit-wbm-test01') && str_ends_with($path, '/shipments') => new MockResponse(json_encode(['CreatedShipment' => ['ParcelData' => [['TrackID' => 'ZSXJ4MK1', 'ParcelNumber' => '78712345678']], 'PrintData' => [['Data' => base64_encode('%PDF-1.4 gls'), 'LabelFormat' => 'PDF']]]])),
                 str_contains($path, '/shipments/cancel/') => new MockResponse(json_encode(['TrackID' => 'ZSXJ4MK1', 'result' => 'CANCELLED'])),
-                str_contains($url, 'gls-group.eu/app/service') => new MockResponse(json_encode(['tuStatus' => [['tuNo' => '78712345678', 'progressBar' => ['statusInfo' => 'DELIVERED'], 'history' => [
+                str_contains($url, 'gls-group.eu/app/service') => new MockResponse(json_encode($this->tracking ?? ['tuStatus' => [['tuNo' => '78712345678', 'progressBar' => ['statusInfo' => 'DELIVERED'], 'history' => [
                     ['date' => '2026-10-02', 'time' => '11:20:00', 'evtDscr' => 'The parcel has been delivered.', 'address' => ['city' => 'Paris', 'countryName' => 'France']],
                     ['date' => '2026-10-01', 'time' => '18:05:00', 'evtDscr' => 'The parcel has reached the parcel center.', 'address' => ['city' => 'Toussieu', 'countryName' => 'France']],
                 ]]]])),
@@ -69,5 +71,24 @@ final class GlsGatewayTest extends TestCase
         self::assertTrue($gateway->cancel('ZSXJ4MK1'));
         self::assertSame(690, $gateway->rate(Fixtures::shipment())[0]->amount);
         self::assertFalse($gateway->supports(Pickup::class));
+    }
+
+    /**
+     * GLS's public tracking texts for a failed delivery ("The parcel could not be delivered...",
+     * "Das Paket konnte nicht zugestellt werden...", "Le colis n'a pas pu être livré...") are
+     * exceptions, not deliveries, though they contain "delivered", "zugestellt" or "livré".
+     */
+    public function testAFailedDeliveryIsAnException(): void
+    {
+        $this->tracking = ['tuStatus' => [['tuNo' => '78712345678', 'progressBar' => ['statusInfo' => 'INTRANSIT'], 'history' => [
+            ['date' => '2026-10-03', 'time' => '09:40:00', 'evtDscr' => 'The parcel could not be delivered as the consignee was absent.', 'address' => ['city' => 'Paris', 'countryName' => 'France']],
+            ['date' => '2026-10-02', 'time' => '18:00:00', 'evtDscr' => 'Not delivered: reception closed.', 'address' => ['city' => 'Paris', 'countryName' => 'France']],
+            ['date' => '2026-10-02', 'time' => '11:20:00', 'evtDscr' => 'Das Paket konnte nicht zugestellt werden.', 'address' => ['city' => 'Paris', 'countryName' => 'France']],
+            ['date' => '2026-10-02', 'time' => '08:00:00', 'evtDscr' => "Le colis n'a pas pu être livré.", 'address' => ['city' => 'Paris', 'countryName' => 'France']],
+            ['date' => '2026-10-01', 'time' => '18:05:00', 'evtDscr' => 'The parcel has reached the parcel center.', 'address' => ['city' => 'Toussieu', 'countryName' => 'France']],
+        ]]]];
+        $tracking = $this->gateway()->track('78712345678', 'en');
+        self::assertSame(TrackingStatus::EXCEPTION, $tracking->status);
+        self::assertSame([TrackingStatus::IN_TRANSIT, TrackingStatus::EXCEPTION, TrackingStatus::EXCEPTION, TrackingStatus::EXCEPTION, TrackingStatus::EXCEPTION], array_map(static fn ($e) => $e->status, $tracking->events));
     }
 }

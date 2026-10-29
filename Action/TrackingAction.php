@@ -45,14 +45,18 @@ final class TrackingAction implements ActionInterface, ApiAwareInterface
         $request->setResult(new TrackingModel('gls', $request->trackingNumber, $status, $events));
     }
 
+    /**
+     * From GLS's description, the failed deliveries first: their texts ("could not be
+     * delivered", "nicht zugestellt", "pas pu être livré") contain the words of a delivery.
+     */
     private static function status(?string $description): TrackingStatus
     {
         $d = strtolower((string) $description);
 
         return match (true) {
+            str_contains($d, 'not delivered') || str_contains($d, 'not be delivered') || str_contains($d, 'undeliver') || str_contains($d, 'non livré') || str_contains($d, 'pas pu être livré') || str_contains($d, 'pas été livré') || str_contains($d, 'nicht zugestellt') || str_contains($d, 'exception') => TrackingStatus::EXCEPTION,
             str_contains($d, 'delivered') || str_contains($d, 'livré') || str_contains($d, 'zugestellt') => str_contains($d, 'parcelshop') || str_contains($d, 'parcel shop') ? TrackingStatus::AVAILABLE_FOR_PICKUP : TrackingStatus::DELIVERED,
             str_contains($d, 'out for delivery') || str_contains($d, 'en cours de livraison') || str_contains($d, 'in zustellung') => TrackingStatus::OUT_FOR_DELIVERY,
-            str_contains($d, 'not delivered') || str_contains($d, 'non livré') || str_contains($d, 'nicht zugestellt') || str_contains($d, 'exception') => TrackingStatus::EXCEPTION,
             str_contains($d, 'return') || str_contains($d, 'retour') || str_contains($d, 'rück') => TrackingStatus::RETURNED,
             str_contains($d, 'data') || str_contains($d, 'données') || str_contains($d, 'daten') => TrackingStatus::PENDING,
             '' !== $d => TrackingStatus::IN_TRANSIT,

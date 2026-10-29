@@ -100,20 +100,17 @@ description, in this order:
 
 | The description contains | `TrackingStatus` |
 |---|---|
+| `not delivered`, `not be delivered`, `undeliver`, `non livré`, `pas pu être livré`, `pas été livré`, `nicht zugestellt`, `exception` | `EXCEPTION` |
 | `delivered`, `livré` or `zugestellt`, with `parcelshop` or `parcel shop` | `AVAILABLE_FOR_PICKUP` |
 | `delivered`, `livré` or `zugestellt` | `DELIVERED` |
 | `out for delivery`, `en cours de livraison`, `in zustellung` | `OUT_FOR_DELIVERY` |
-| `not delivered`, `non livré`, `nicht zugestellt`, `exception` | `EXCEPTION` |
 | `return`, `retour`, `rück` | `RETURNED` |
 | `data`, `données`, `daten` | `PENDING` |
 | anything else | `IN_TRANSIT` |
 | no description | `UNKNOWN` |
 
-Because the rows are tried in order, a text such as "not delivered" contains `delivered` and is
-read as `DELIVERED` before the `EXCEPTION` row is reached.
-
-> [!WARNING]
-> Known defect: "not delivered" reads `DELIVERED`, where it is an `EXCEPTION`.
+The failed deliveries come first: their texts ("The parcel could not be delivered...", "Das Paket
+konnte nicht zugestellt werden...") contain the words of a delivery.
 
 **Cancel.** `POST /shipments/cancel/{trackId}`: `true` when GLS's `result` is `CANCELLED` or
 `CANCELLATION_PENDING`, `false` for any other result.
@@ -203,7 +200,8 @@ is built; `Pickup`, `GetSlip`, `Paperless`, and `Rating` without `rates`, raise
 Tested offline: `Tests/GlsGatewayTest.php` (a shipment created with its PDF label, the contact id,
 product `PARCEL`, the reference, the company-less consignee, the weight in kilograms and
 FlexDelivery; ShopDelivery for a ParcelShop; tracking with the progress bar's `DELIVERED`, its
-location and the English path; cancellation; configured rates; no pickup points) and
+location and the English path; failed deliveries in English, German and French read as
+exceptions; cancellation; configured rates; no pickup points) and
 `Tests/GlsContractTest.php`, the family's conformance suite on recorded answers. The example above
 was run in the core's harness on those recorded answers.
 
