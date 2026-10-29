@@ -3,6 +3,7 @@
 namespace Omnibus\Gls;
 
 use Omnibus\Exception\CarrierException;
+use Omnibus\Http\Redaction;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -42,14 +43,16 @@ final class Api
             $content = $response->getContent(false);
             $headers = $response->getHeaders(false);
         } catch (HttpExceptionInterface|\JsonException $e) {
-            throw new CarrierException('gls', 'GLS request failed: '.$e->getMessage(), null, $e);
+            $secrets = $this->secrets();
+
+            throw Redaction::withoutArguments(new CarrierException('gls', 'GLS request failed: '.Redaction::text($e->getMessage(), $secrets), null, Redaction::copy($e, $secrets)));
         }
         $data = '' === $content ? [] : json_decode($content, true);
         if ($status >= 400) {
-            throw new CarrierException('gls', (string) ($headers['message'][0] ?? $data['message'] ?? $data['errors'][0]['description'] ?? sprintf('HTTP %d', $status)), $headers['error'][0] ?? null);
+            throw Redaction::withoutArguments(new CarrierException('gls', (string) ($headers['message'][0] ?? $data['message'] ?? $data['errors'][0]['description'] ?? sprintf('HTTP %d', $status)), $headers['error'][0] ?? null));
         }
         if (!\is_array($data)) {
-            throw new CarrierException('gls', 'GLS answered with a body that is not JSON.');
+            throw Redaction::withoutArguments(new CarrierException('gls', 'GLS answered with a body that is not JSON.'));
         }
 
         return $data;
@@ -63,12 +66,24 @@ final class Api
             $status = $response->getStatusCode();
             $data = $response->toArray(false);
         } catch (HttpExceptionInterface $e) {
-            throw new CarrierException('gls', 'GLS tracking failed: '.$e->getMessage(), null, $e);
+            $secrets = $this->secrets();
+
+            throw Redaction::withoutArguments(new CarrierException('gls', 'GLS tracking failed: '.Redaction::text($e->getMessage(), $secrets), null, Redaction::copy($e, $secrets)));
         }
         if ($status >= 400) {
-            throw new CarrierException('gls', (string) ($data['message'] ?? sprintf('GLS tracking answered HTTP %d.', $status)));
+            throw Redaction::withoutArguments(new CarrierException('gls', (string) ($data['message'] ?? sprintf('GLS tracking answered HTTP %d.', $status))));
         }
 
         return $data;
+    }
+
+    /**
+     * What a failure must not carry: the credentials, and what a request made of them.
+     *
+     * @return list<string>
+     */
+    private function secrets(string ...$more): array
+    {
+        return [$this->password, ...$more];
     }
 }
