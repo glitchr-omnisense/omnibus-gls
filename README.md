@@ -22,7 +22,7 @@ omnibus:
                 contact_id: '%env(GLS_CONTACT_ID)%'
                 sandbox: true
                 rates:
-                    - { service: PARCEL, label: 'GLS', amount: 690 }
+                    - { service: PARCEL, label: 'GLS', bands: { 2000: 690, 5000: 890 } }   # grams => minor units
 ```
 
 The service is the product (PARCEL by default, EXPRESS, FREIGHT); a shipment with a
