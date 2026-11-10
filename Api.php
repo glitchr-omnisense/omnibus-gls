@@ -4,6 +4,8 @@ namespace Omnibus\Gls;
 
 use Omnibus\Exception\CarrierException;
 use Omnibus\Http\Redaction;
+use Omnibus\Http\Throttle;
+use Omnisense\Contracts\Policy\Backoff;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -25,6 +27,8 @@ final class Api
         public readonly string $contactId,
         public readonly bool $sandbox = false,
         private readonly int $timeout = 20,
+        /** The waits the carrier asks for (omnisense/contracts' Backoff): no call while one lasts, a 429 a RateLimitedException, never retried */
+        private readonly ?Backoff $backoff = null,
     ) {
     }
 
@@ -32,6 +36,7 @@ final class Api
     public function call(string $method, string $path, ?array $body = null, array $query = []): array
     {
         try {
+            Throttle::before($this->backoff);
             $response = $this->http->request($method, ($this->sandbox ? self::TEST : self::LIVE).$path, [
                 'auth_basic' => [$this->username, $this->password],
                 'headers' => ['Content-Type' => 'application/glsVersion1+json', 'Accept' => 'application/glsVersion1+json, application/json'],
@@ -40,6 +45,7 @@ final class Api
                 'timeout' => $this->timeout,
             ]);
             $status = $response->getStatusCode();
+            Throttle::after($this->backoff, 'gls', $status, $response->getHeaders(false));
             $content = $response->getContent(false);
             $headers = $response->getHeaders(false);
         } catch (HttpExceptionInterface|\JsonException $e) {
@@ -62,8 +68,10 @@ final class Api
     public function track(string $number, string $locale): array
     {
         try {
+            Throttle::before($this->backoff);
             $response = $this->http->request('GET', str_replace('/EU/en/', '/EU/'.(str_starts_with($locale, 'fr') ? 'fr' : (str_starts_with($locale, 'de') ? 'de' : 'en')).'/', self::TRACKING), ['query' => ['match' => $number], 'timeout' => $this->timeout]);
             $status = $response->getStatusCode();
+            Throttle::after($this->backoff, 'gls', $status, $response->getHeaders(false));
             $data = $response->toArray(false);
         } catch (HttpExceptionInterface $e) {
             $secrets = $this->secrets();

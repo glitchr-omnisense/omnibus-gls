@@ -1,0 +1,331 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: Action/CancelAction.php
+
+		-
+			message: '#^Cannot access offset ''Data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/ShippingAction.php
+
+		-
+			message: '#^Cannot access offset ''ParcelData'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/ShippingAction.php
+
+		-
+			message: '#^Cannot access offset ''ParcelNumber'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/ShippingAction.php
+
+		-
+			message: '#^Cannot access offset ''PrintData'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/ShippingAction.php
+
+		-
+			message: '#^Cannot access offset ''TrackID'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/ShippingAction.php
+
+		-
+			message: '#^Cannot access offset 0 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 3
+			path: Action/ShippingAction.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 2
+			path: Action/ShippingAction.php
+
+		-
+			message: '#^Method Omnibus\\Gls\\Action\\ShippingAction\:\:address\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Action/ShippingAction.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Binary operation "\." between mixed and '' '' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Binary operation "\." between non\-falsy\-string and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot access offset ''address'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot access offset ''city'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot access offset ''countryName'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot access offset ''date'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot access offset ''evtDscr'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot access offset ''history'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot access offset ''progressBar'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot access offset ''statusInfo'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot access offset ''time'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot access offset 0 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 2
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Parameter \#1 \$description of static method Omnibus\\Gls\\Action\\TrackingAction\:\:status\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Parameter \#2 \$array of function implode expects array\<string\>, array\<int, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Action/TrackingAction.php
+
+		-
+			message: '#^Cannot access offset ''description'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Api.php
+
+		-
+			message: '#^Cannot access offset ''errors'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Api.php
+
+		-
+			message: '#^Cannot access offset ''message'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Api.php
+
+		-
+			message: '#^Cannot access offset 0 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Api.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 2
+			path: Api.php
+
+		-
+			message: '#^Method Omnibus\\Gls\\Api\:\:call\(\) has parameter \$body with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Api.php
+
+		-
+			message: '#^Method Omnibus\\Gls\\Api\:\:call\(\) has parameter \$query with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Api.php
+
+		-
+			message: '#^Method Omnibus\\Gls\\Api\:\:call\(\) should return array\<string, mixed\> but returns array\<mixed, mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: Api.php
+
+		-
+			message: '#^Method Omnibus\\Gls\\Api\:\:secrets\(\) should return list\<string\> but returns non\-empty\-array\<int\<0, max\>\|string, string\>\.$#'
+			identifier: return.type
+			count: 1
+			path: Api.php
+
+		-
+			message: '#^Method Omnibus\\Gls\\Api\:\:track\(\) should return array\<string, mixed\> but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: Api.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 3
+			path: GlsGatewayFactory.php
+
+		-
+			message: '#^Cannot access offset ''Address'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset ''Consignee'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset ''ContactID'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset ''Name1'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset ''Product'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset ''Service'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset ''Shipment'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset ''ShipmentReference'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset ''ShipmentUnit'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset ''Shipper'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset ''Weight'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset 0 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 3
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset 1 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access offset 2 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Cannot access property \$location on Omnibus\\Model\\TrackingEvent\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Parameter \#1 \$body of class Symfony\\Component\\HttpClient\\Response\\MockResponse constructor expects iterable\<string\|Throwable\>\|string, string\|false given\.$#'
+			identifier: argument.type
+			count: 4
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertStringContainsString\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Property Omnibus\\Gls\\Tests\\GlsGatewayTest\:\:\$calls type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Tests/GlsGatewayTest.php
+
+		-
+			message: '#^Property Omnibus\\Gls\\Tests\\GlsGatewayTest\:\:\$tracking type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Tests/GlsGatewayTest.php

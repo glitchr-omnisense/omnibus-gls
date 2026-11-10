@@ -26,12 +26,13 @@ final class GlsGatewayFactory extends GatewayFactory
         $config->defaults([
             'omnibus.factory_name' => 'gls',
             'omnibus.factory_title' => 'GLS',
+            'omnibus.policy' => __DIR__.'/policy.json',
             'omnibus.required_options' => ['username', 'password', 'contact_id'],
             'sandbox' => false,
             'omnibus.api' => function (Config $c) {
                 $http = $this->http ?? HttpClient::create();
 
-                return new Api($http, (string) $c['username'], (string) $c['password'], (string) $c['contact_id'], (bool) $c['sandbox']);
+                return new Api($http, (string) $c['username'], (string) $c['password'], (string) $c['contact_id'], (bool) $c['sandbox'], backoff: $c->backoff());
             },
             'omnibus.action.shipping' => new ShippingAction(),
             'omnibus.action.tracking' => new TrackingAction(),

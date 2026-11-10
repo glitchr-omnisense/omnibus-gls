@@ -1,0 +1,38 @@
+{
+    "$schema": "https://github.com/glitchr-omnisense/contracts/blob/1.x/resources/usage-policy.schema.json",
+    "provider": "gls",
+    "rateLimits": null,
+    "concurrency": null,
+    "rights": {
+        "commercial": "contract",
+        "openSourceRequired": false,
+        "caching": {
+            "permission": "unknown",
+            "maxTtl": null
+        },
+        "storage": "unknown",
+        "redistribution": "unknown",
+        "attribution": {
+            "required": false,
+            "text": null,
+            "url": null,
+            "where": []
+        },
+        "licence": null
+    },
+    "requirements": {
+        "key": true,
+        "userAgent": {
+            "required": false,
+            "pattern": null
+        }
+    },
+    "provenance": {
+        "terms": null,
+        "policy": null,
+        "verifiedAt": null,
+        "declaredBy": "maintainer",
+        "contact": "https://dev-portal.gls-group.net",
+        "notes": "Not read on 2026-11-10: GLS's ShipIT documentation answered 404 or failed TLS, its developer portal renders with JavaScript only. A \"100,000 requests a day per App ID\" figure seen in a third party's README is not declared. ShipIT needs the credentials and endpoint GLS gives the account; the public tracking endpoint the package reads has no published terms. A shipment is sent once."
+    }
+}
