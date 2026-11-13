@@ -4,6 +4,41 @@ GLS for [omnisense/omnibus](https://github.com/glitchr-omnisense/omnibus): shipm
 labels and cancellations through the ShipIT web API, tracking through GLS's public parcel
 tracking. Prices come from configuration (`rates`): ShipIT quotes none.
 
+## Install and a first call
+
+```sh
+composer require omnibus/gls
+```
+
+No account for this first call: GLS's answer is recorded (`Omnibus\Testing\RecordedHttpClient`
+answers in place of the API), so nothing leaves the process. With your own credentials, give the
+factory your HTTP client (or none: it makes its own) and drop the recorded one.
+
+```php
+<?php
+
+require __DIR__.'/vendor/autoload.php';
+
+use Omnibus\Gls\GlsGatewayFactory;
+use Omnibus\Testing\RecordedHttpClient;
+
+// GLS's answer, recorded: no account, and nothing leaves the process.
+$http = new RecordedHttpClient([
+    'gls-group.eu/app/service' => ['tuStatus' => [['tuNo' => '78712345678', 'progressBar' => ['statusInfo' => 'DELIVERED'], 'history' => [
+        ['date' => '2026-10-02', 'time' => '11:20:00', 'evtDscr' => 'The parcel has been delivered.', 'address' => ['city' => 'Paris', 'countryName' => 'France']],
+    ]]]],
+]);
+$gateway = (new GlsGatewayFactory($http))->create(['username' => 'user', 'password' => 'pass', 'contact_id' => '276a1234', 'sandbox' => true]);
+
+$tracking = $gateway->track('78712345678');
+echo $tracking->status->value, ' - ', $tracking->latest()?->description, "\n";   // delivered - The parcel has been delivered.
+```
+
+A real call needs a GLS account (the credentials below). The answer is shaped after GLS's published
+documentation; the package has not been run against its service yet.
+
+## Configuration
+
 ```php
 $gateway = (new GlsGatewayFactory($http))->create($options);   // $http: the application's HTTP client - none given, the factory makes its own; the options below
 ```
